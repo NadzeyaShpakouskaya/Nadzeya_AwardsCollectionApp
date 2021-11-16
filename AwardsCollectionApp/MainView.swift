@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MainView: View {
     @State private var showAward = false
-    @State private var awardAnimated = true
+    @State private var awardAnimated = false
     
     var body: some View {
+        
         VStack {
             Button(action: buttonAction) {
                 HStack {
@@ -25,14 +26,18 @@ struct MainView: View {
             
             Spacer()
             if showAward {
-                Button("Press to animate") {
-                    awardAnimated.toggle()
-                }
+                Text("Tap on clock to run the animation")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.indigo)
+                    .multilineTextAlignment(.center)
+                    .transition(.clockRingTransition)
+                
                 withAnimation {
                     ClockView(color: .gray)
                         .frame(width: 250, height: 250)
                         .transition(.clockRingTransition)
-                        .offset(x: awardAnimated ? 0 : 5, y:  awardAnimated ? 0 : 5)
+                        .offset(x: awardAnimated ? 5 : 0, y:  awardAnimated ? 5 : 0)
                         .animation(
                             Animation
                                 .default
@@ -40,6 +45,7 @@ struct MainView: View {
                                 .speed(4),
                             value: awardAnimated
                         )
+                        .onTapGesture { awardAnimated.toggle()}
                 }
             }
             Spacer()
@@ -68,15 +74,15 @@ extension AnyTransition {
         let insertion = AnyTransition.move(edge: .top)
             .combined(with: .scale)
             .animation(Animation.easeOut)
-                        
+        
         let removal = AnyTransition.move(edge: .top)
             .combined(with: .scale)
             .animation(Animation.default.delay(0.35))
-           
+        
         return .asymmetric(insertion: insertion, removal: removal)
     }
     
-  
+    
 }
 
 

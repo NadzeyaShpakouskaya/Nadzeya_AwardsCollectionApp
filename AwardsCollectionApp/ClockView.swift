@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 ///Should be define with square frame (equal height and width)
 struct ClockView: View {
     let color: Color
